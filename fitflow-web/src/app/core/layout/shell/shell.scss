@@ -1,0 +1,35 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+.layout__sidebar {
+  background: #111827;
+  color: #fff;
+  border-right: 1px solid #1f2937;
+}
+
+.layout__main {
+  display: grid;
+  grid-template-rows: 72px 1fr;
+  min-height: 100vh;
+}
+
+.layout__topbar {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+}
+
+.layout__content {
+  padding: 24px;
+}

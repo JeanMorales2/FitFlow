@@ -7,12 +7,29 @@ export const routes: Routes = [
     component: Shell,
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./features/dashboard/dashboard.page').then(m => m.DashboardPage),
+          import('./features/dashboard/dashboard.page')
+            .then(m => m.DashboardPage),
       },
+
+      {
+        path: 'clientes',
+        loadComponent: () =>
+          import('./features/clientes/clientes-page/clientes-page')
+            .then(m => m.ClientesPage),
+      },
+
+      {
+        path: 'rutinas',
+        loadComponent: () =>
+          import('./features/rutinas/rutinas-page/rutinas-page')
+            .then(m => m.RutinasPage),
+      }
     ],
   },
+
   { path: '**', redirectTo: '' },
 ];
