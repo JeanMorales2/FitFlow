@@ -1,0 +1,86 @@
+<div class="rutinas-page">
+  <div class="rutinas-page__header">
+    <h1>Rutinas</h1>
+    <button class="btn-primary">+ Nueva Rutina</button>
+  </div>
+
+  <div class="rutinas-table-wrapper">
+    <table class="rutinas-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Nivel</th>
+          <th>Categoría</th>
+          <th>Ejercicios</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let rutina of rutinas">
+          <td>{{ rutina.nombre }}</td>
+          <td>{{ rutina.nivel }}</td>
+          <td>{{ rutina.categoria }}</td>
+          <td>{{ rutina.ejercicios }}</td>
+          <td>
+            <button class="btn-secondary">Editar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="modal-backdrop" *ngIf="showModal">
+  <div class="modal">
+
+    <h2>Nueva Rutina</h2>
+
+    <form [formGroup]="rutinaForm" (ngSubmit)="guardarRutina()">
+
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" formControlName="nombre">
+
+        <small class="error"
+          *ngIf="rutinaForm.get('nombre')?.invalid && rutinaForm.get('nombre')?.touched">
+          El nombre es obligatorio
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label>Nivel</label>
+
+        <select formControlName="nivel">
+          <option value="Principiante">Principiante</option>
+          <option value="Intermedio">Intermedio</option>
+          <option value="Avanzado">Avanzado</option>
+        </select>
+
+      </div>
+
+      <div class="form-group">
+        <label>Categoría</label>
+        <input type="text" formControlName="categoria">
+      </div>
+
+      <div class="form-group">
+        <label>Cantidad de ejercicios</label>
+        <input type="number" formControlName="ejercicios">
+      </div>
+
+      <div class="modal-actions">
+
+        <button type="button" class="btn-secondary" (click)="closeModal()">
+          Cancelar
+        </button>
+
+        <button type="submit" class="btn-primary">
+          Guardar
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+</div>
