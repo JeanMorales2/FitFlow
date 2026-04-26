@@ -17,13 +17,15 @@
       </thead>
 
       <tbody>
-        <tr *ngFor="let rutina of rutinas">
+        <tr *ngFor="let rutina of rutinas; let i = index">
           <td>{{ rutina.nombre }}</td>
           <td>{{ rutina.nivel }}</td>
           <td>{{ rutina.categoria }}</td>
           <td>{{ rutina.ejercicios }}</td>
           <td>
-            <button class="btn-secondary">Editar</button>
+           <button class="btn-secondary" [routerLink]="['/rutinas', i]">
+             Ver
+        </button>
           </td>
         </tr>
       </tbody>

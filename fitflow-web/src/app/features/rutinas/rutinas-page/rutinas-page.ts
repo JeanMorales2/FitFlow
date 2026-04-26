@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { Rutina } from '../../../core/models/rutina.model';
 
 @Component({
   selector: 'app-rutinas-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './rutinas-page.html',
   styleUrl: './rutinas-page.scss',
 })
@@ -86,8 +87,6 @@ export class RutinasPage {
     };
 
     this.rutinas.push(nuevaRutina);
-
-    console.log('Rutina creada:', nuevaRutina);
 
     this.closeModal();
   }
