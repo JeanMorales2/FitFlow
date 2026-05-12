@@ -1,11 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { ApiClient } from '../../core/http/api-client';
+import { Card } from "../../shared/ui/card/card";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   templateUrl: './dashboard.page.html',
   styleUrl: './dashboard.page.scss',
+  imports: [Card],
 })
 export class DashboardPage {
   private api = inject(ApiClient);

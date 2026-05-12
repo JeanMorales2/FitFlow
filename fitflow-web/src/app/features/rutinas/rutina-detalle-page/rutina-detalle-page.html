@@ -1,0 +1,26 @@
+<div class="rutina-detalle" *ngIf="rutinaSeleccionada">
+  <h1>{{ rutinaSeleccionada.nombre }}</h1>
+
+  <div class="rutina-detalle__info">
+    <p><strong>Nivel:</strong> {{ rutinaSeleccionada.nivel }}</p>
+    <p><strong>Categoría:</strong> {{ rutinaSeleccionada.categoria }}</p>
+    <p><strong>Total ejercicios:</strong> {{ rutinaSeleccionada.ejercicios.length }}</p>
+  </div>
+
+  <div class="rutina-detalle__ejercicios">
+    <h2>Ejercicios</h2>
+
+    <ul>
+      <li *ngFor="let ejercicio of rutinaSeleccionada.ejercicios">
+        <strong>{{ ejercicio.nombre }}</strong>
+        <span *ngIf="ejercicio.videoUrl">
+          - <a [href]="ejercicio.videoUrl" target="_blank">Ver video</a>
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div *ngIf="!rutinaSeleccionada">
+  <h1>Rutina no encontrada</h1>
+</div>

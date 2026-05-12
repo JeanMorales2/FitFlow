@@ -1,0 +1,22 @@
+.dashboard-title {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+h3 {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.value {
+  font-size: 32px;
+  font-weight: bold;
+  margin-top: 8px;
+}

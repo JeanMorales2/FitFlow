@@ -1,0 +1,53 @@
+.rutina-detalle {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.rutina-detalle h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #111827;
+}
+
+.rutina-detalle__info {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.rutina-detalle__info p {
+  margin: 8px 0;
+  color: #374151;
+}
+
+.rutina-detalle__ejercicios {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.rutina-detalle__ejercicios h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.rutina-detalle__ejercicios ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.rutina-detalle__ejercicios li {
+  margin-bottom: 10px;
+}
+
+.rutina-detalle__ejercicios a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.rutina-detalle__ejercicios a:hover {
+  text-decoration: underline;
+}
