@@ -1,88 +1,60 @@
-<div class="rutinas-page">
-  <div class="rutinas-page__header">
-    <h1>Rutinas</h1>
-    <button class="btn-primary">+ Nueva Rutina</button>
-  </div>
+<section class="rutinas-page">
+  <header class="rutinas-page__header">
+    <div><p class="eyebrow">Entrenamiento</p><h1>Rutinas</h1></div>
+    <button #openModalButton type="button" class="btn-primary" (click)="openModal()">+ Nueva rutina</button>
+  </header>
 
   <div class="rutinas-table-wrapper">
     <table class="rutinas-table">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Nivel</th>
-          <th>Categoría</th>
-          <th>Ejercicios</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-
+      <thead><tr><th>Nombre</th><th>Nivel</th><th>Estado</th><th>Ejercicios</th><th><span class="sr-only">Acciones</span></th></tr></thead>
       <tbody>
-        <tr *ngFor="let rutina of rutinas; let i = index">
-          <td>{{ rutina.nombre }}</td>
-          <td>{{ rutina.nivel }}</td>
-          <td>{{ rutina.categoria }}</td>
-          <td>{{ rutina.ejercicios }}</td>
-          <td>
-           <button class="btn-secondary" [routerLink]="['/rutinas', i]">
-             Ver
-        </button>
-          </td>
-        </tr>
+        @for (rutina of rutinas(); track rutina.id) {
+          <tr>
+            <td data-label="Nombre"><strong>{{ rutina.nombre }}</strong></td>
+            <td data-label="Nivel"><span class="badge">{{ rutina.nivel }}</span></td>
+            <td data-label="Estado">{{ rutina.estado }}</td>
+            <td data-label="Ejercicios">{{ exerciseSummary(rutina) }}</td>
+            <td class="actions"><a class="btn-secondary" [routerLink]="['/rutinas', rutina.id]" [attr.aria-label]="'Ver ' + rutina.nombre">Ver detalle</a></td>
+          </tr>
+        } @empty {
+          <tr><td colspan="5" class="empty-state">Aún no hay rutinas. Crea la primera para comenzar.</td></tr>
+        }
       </tbody>
     </table>
   </div>
-</div>
-<div class="modal-backdrop" *ngIf="showModal">
-  <div class="modal">
+</section>
 
-    <h2>Nueva Rutina</h2>
+@if (showModal) {
+  <div class="modal-backdrop" (mousedown)="$event.target === $event.currentTarget && closeModal()">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="new-routine-title">
+      <header class="modal__header"><div><p class="eyebrow">Configuración</p><h2 id="new-routine-title">Nueva rutina</h2></div><button type="button" class="icon-button" aria-label="Cerrar" (click)="closeModal()">×</button></header>
+      <form [formGroup]="rutinaForm" (ngSubmit)="guardarRutina()" novalidate>
+        <div class="form-grid">
+          <div class="form-group form-group--wide"><label for="routine-name">Nombre</label><input #nombreInput id="routine-name" type="text" formControlName="nombre" autocomplete="off">@if (rutinaForm.controls.nombre.touched && rutinaForm.controls.nombre.invalid) { <small class="error">El nombre es obligatorio.</small> }</div>
+          <div class="form-group"><label for="routine-level">Nivel</label><select id="routine-level" formControlName="nivel"><option value="Principiante">Principiante</option><option value="Intermedio">Intermedio</option><option value="Avanzado">Avanzado</option></select></div>
+          <div class="form-group form-group--wide"><label for="routine-description">Descripción</label><textarea id="routine-description" rows="3" formControlName="descripcion"></textarea></div>
+        </div>
 
-    <form [formGroup]="rutinaForm" (ngSubmit)="guardarRutina()">
-
-      <div class="form-group">
-        <label>Nombre</label>
-        <input type="text" formControlName="nombre">
-
-        <small class="error"
-          *ngIf="rutinaForm.get('nombre')?.invalid && rutinaForm.get('nombre')?.touched">
-          El nombre es obligatorio
-        </small>
-      </div>
-
-      <div class="form-group">
-        <label>Nivel</label>
-
-        <select formControlName="nivel">
-          <option value="Principiante">Principiante</option>
-          <option value="Intermedio">Intermedio</option>
-          <option value="Avanzado">Avanzado</option>
-        </select>
-
-      </div>
-
-      <div class="form-group">
-        <label>Categoría</label>
-        <input type="text" formControlName="categoria">
-      </div>
-
-      <div class="form-group">
-        <label>Cantidad de ejercicios</label>
-        <input type="number" formControlName="ejercicios">
-      </div>
-
-      <div class="modal-actions">
-
-        <button type="button" class="btn-secondary" (click)="closeModal()">
-          Cancelar
-        </button>
-
-        <button type="submit" class="btn-primary">
-          Guardar
-        </button>
-
-      </div>
-
-    </form>
-
+        <div class="exercises-heading"><div><h3>Ejercicios</h3><p>Configura el volumen y descanso de cada movimiento.</p></div><button type="button" class="btn-secondary" (click)="addEjercicio()">+ Agregar ejercicio</button></div>
+        <div formArrayName="ejercicios" class="exercise-list">
+          @for (exerciseForm of ejerciciosFormArray.controls; track exerciseForm; let index = $index) {
+            <fieldset class="exercise-card" [formGroupName]="index">
+              <legend>Ejercicio {{ index + 1 }}</legend>
+              <div class="exercise-card__grid">
+                <div class="form-group exercise-select"><label [for]="'exercise-' + index">Ejercicio</label><select [id]="'exercise-' + index" formControlName="ejercicioId"><option value="">Selecciona un ejercicio</option>@for (exercise of ejerciciosCatalogo(); track exercise.id) { <option [value]="exercise.id" [disabled]="isExerciseSelected(exercise.id, index)">{{ exercise.nombre }}</option> }</select></div>
+                <div class="form-group"><label [for]="'series-' + index">Series</label><input [id]="'series-' + index" type="number" min="1" step="1" formControlName="series"></div>
+                <div class="form-group"><label [for]="'reps-' + index">Repeticiones</label><input [id]="'reps-' + index" type="number" min="1" step="1" formControlName="repeticiones"></div>
+                <div class="form-group"><label [for]="'rest-' + index">Descanso (s)</label><input [id]="'rest-' + index" type="number" min="0" step="1" formControlName="descansoSegundos"></div>
+                <button type="button" class="remove-button" (click)="removeEjercicio(index)" [attr.aria-label]="'Eliminar ejercicio ' + (index + 1)">Eliminar</button>
+              </div>
+              @if (exerciseForm.touched && exerciseForm.invalid) { <small class="error">Selecciona un ejercicio y usa valores enteros válidos.</small> }
+            </fieldset>
+          } @empty { <p class="empty-exercises">Agrega al menos un ejercicio.</p> }
+        </div>
+        @if (rutinaForm.controls.ejercicios.touched && rutinaForm.controls.ejercicios.hasError('minlength')) { <p class="error">La rutina debe incluir al menos un ejercicio.</p> }
+        @if (duplicateExerciseError) { <p class="error">Cada ejercicio solo puede aparecer una vez.</p> }
+        <footer class="modal-actions"><button type="button" class="btn-secondary" (click)="closeModal()">Cancelar</button><button type="submit" class="btn-primary">Crear rutina</button></footer>
+      </form>
+    </section>
   </div>
-</div>
+}

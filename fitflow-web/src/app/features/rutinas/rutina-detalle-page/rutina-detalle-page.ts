@@ -1,43 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Rutina } from '../../../core/models/rutina.model';
+import { Component, computed, inject } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { EjerciciosService } from '../../../core/services/ejercicios.service';
+import { RutinasService } from '../../../core/services/rutinas.service';
 
 @Component({
-  selector: 'app-rutina-detalle-page',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './rutina-detalle-page.html',
-  styleUrl: './rutina-detalle-page.scss',
+  selector: 'app-rutina-detalle-page', standalone: true,
+  imports: [CommonModule, RouterLink],
+  templateUrl: './rutina-detalle-page.html', styleUrl: './rutina-detalle-page.scss',
 })
 export class RutinaDetallePage {
-  rutinaId: number | null = null;
+  private readonly route = inject(ActivatedRoute);
+  private readonly rutinasService = inject(RutinasService);
+  readonly ejerciciosService = inject(EjerciciosService);
 
-  rutinas: Rutina[] = [
-    {
-      nombre: 'Rutina Pierna Inicial',
-      nivel: 'Principiante',
-      categoria: 'Pierna',
-      ejercicios: [
-        { nombre: 'Sentadilla', videoUrl: 'https://youtube.com/example1' },
-        { nombre: 'Prensa', videoUrl: 'https://youtube.com/example2' }
-      ]
-    },
-    {
-      nombre: 'Rutina Espalda Intermedia',
-      nivel: 'Intermedio',
-      categoria: 'Espalda',
-      ejercicios: [
-        { nombre: 'Dominadas', videoUrl: 'https://youtube.com/example3' },
-        { nombre: 'Remo con barra', videoUrl: 'https://youtube.com/example4' }
-      ]
-    }
-  ];
-
-  rutinaSeleccionada: Rutina | undefined;
-
-  constructor(private route: ActivatedRoute) {
-    this.rutinaId = Number(this.route.snapshot.paramMap.get('id'));
-    this.rutinaSeleccionada = this.rutinas[this.rutinaId];
-  }
+  readonly rutinaId = this.route.snapshot.paramMap.get('id')?.trim() ?? '';
+  readonly rutinaSeleccionada = computed(() => this.rutinaId ? this.rutinasService.getById(this.rutinaId) : undefined);
 }
