@@ -9,7 +9,6 @@ import { Cliente } from '../../../core/models/cliente.model';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './clientes-page.html',
-  styleUrl: './clientes-page.scss'
 })
 export class ClientesPage {
   showModal = false;
@@ -32,6 +31,7 @@ export class ClientesPage {
   }
 
   openModal() {
+    this.clienteForm.reset({ nombre: '', dni: '', estado: 'Activo' });
     this.showModal = true;
   }
   editarCliente(cliente: { nombre: string; dni: string; estado: string }, index: number) {

@@ -19,4 +19,9 @@ describe('ClientesPage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('muestra el directorio de clientes', () => {
+    fixture.detectChanges();
+    expect(fixture.nativeElement.textContent).toContain('Directorio de clientes');
+  });
 });
