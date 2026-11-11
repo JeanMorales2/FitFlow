@@ -1,4 +1,4 @@
-<section class="rutinas-page mx-auto w-full max-w-6xl">
+<section class="rutinas-page w-full">
   <header class="rutinas-page__header">
     <div><p class="eyebrow">Entrenamiento</p><h1>Rutinas</h1></div>
     <button #openModalButton type="button" class="btn-primary" (click)="openModal()">+ Nueva rutina</button>
@@ -6,7 +6,7 @@
 
   <div class="rutinas-table-wrapper">
     <table class="rutinas-table">
-      <thead><tr><th>Nombre</th><th>Nivel</th><th>Estado</th><th>Ejercicios</th><th><span class="sr-only">Acciones</span></th></tr></thead>
+      <thead><tr><th>Nombre</th><th>Nivel</th><th>Estado</th><th>Ejercicios</th><th>Acciones</th></tr></thead>
       <tbody>
         @for (rutina of rutinas(); track rutina.id) {
           <tr>
