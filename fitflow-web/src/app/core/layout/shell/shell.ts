@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Sidebar } from '../sidebar/sidebar';
 import { Topbar } from '../topbar/topbar';
@@ -8,6 +8,10 @@ import { Topbar } from '../topbar/topbar';
   standalone: true,
   imports: [RouterOutlet, Sidebar, Topbar],
   templateUrl: './shell.html',
-  styleUrl: './shell.scss'
 })
-export class Shell {}
+export class Shell {
+  readonly sidebarOpen = signal(false);
+
+  openSidebar(): void { this.sidebarOpen.set(true); }
+  closeSidebar(): void { this.sidebarOpen.set(false); }
+}

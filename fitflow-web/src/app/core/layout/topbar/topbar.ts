@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
 
 @Component({
   selector: 'app-topbar',
   imports: [],
   templateUrl: './topbar.html',
-  styleUrl: './topbar.scss',
 })
-export class Topbar {}
+export class Topbar {
+  readonly menuRequested = output<void>();
+
+  openMenu(): void { this.menuRequested.emit(); }
+}
