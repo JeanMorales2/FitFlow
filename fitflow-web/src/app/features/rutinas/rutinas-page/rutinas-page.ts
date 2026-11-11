@@ -31,7 +31,7 @@ export class RutinasPage {
   duplicateExerciseError = false;
 
   readonly rutinaForm = new FormGroup({
-    nombre: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    nombre: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.pattern(/\S/)] }),
     nivel: new FormControl<NivelRutina>('Principiante', { nonNullable: true, validators: [Validators.required] }),
     descripcion: new FormControl('', { nonNullable: true }),
     ejercicios: new FormArray<EjercicioForm>([], { validators: [Validators.required, Validators.minLength(1)] }),
@@ -58,7 +58,7 @@ export class RutinasPage {
       ejercicioId: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
       series: new FormControl<number | null>(null, [Validators.min(1), Validators.pattern(/^\d+$/)]),
       repeticiones: new FormControl<number | null>(null, [Validators.min(1), Validators.pattern(/^\d+$/)]),
-      descansoSegundos: new FormControl<number | null>(null, [Validators.min(0)]),
+      descansoSegundos: new FormControl<number | null>(null, [Validators.min(0), Validators.pattern(/^\d+$/)]),
     }));
   }
 

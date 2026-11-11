@@ -33,6 +33,18 @@ describe('RutinasPage', () => {
     expect(service.rutinas().length).toBe(initialCount);
   });
 
+  it('rechaza nombres compuestos solo por espacios y descansos decimales antes de crear', () => {
+    const initialCount = service.rutinas().length;
+    component.openModal();
+    component.rutinaForm.controls.nombre.setValue('   ');
+    component.ejerciciosFormArray.at(0).setValue({ ejercicioId: 'exercise-squat', series: 3, repeticiones: 10, descansoSegundos: 30.5 });
+
+    component.guardarRutina();
+
+    expect(component.rutinaForm.invalid).toBe(true);
+    expect(service.rutinas().length).toBe(initialCount);
+  });
+
   it('agrega y elimina controles de ejercicio', () => {
     component.openModal();
     component.addEjercicio();
